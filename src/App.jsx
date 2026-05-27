@@ -1,534 +1,408 @@
-import { useState } from "react"
+import { useState } from "react";
 
 function App() {
-
-  // CONTROLE DE TELAS
-  const [pagina, setPagina] = useState("home")
-
-  // CLIENTES
-  const [nomeCliente, setNomeCliente] = useState("")
-  const [cpf, setCpf] = useState("")
-  const [rg, setRg] = useState("")
-  const [telefone, setTelefone] = useState("")
-  const [endereco, setEndereco] = useState("")
-  const [clientes, setClientes] = useState([])
-
-  // PRODUTOS
-  const [produto, setProduto] = useState("")
-  const [codigoBarras, setCodigoBarras] = useState("")
-  const [categoria, setCategoria] = useState("")
-  const [estoque, setEstoque] = useState("")
-  const [valorCompra, setValorCompra] = useState("")
-  const [valorVenda, setValorVenda] = useState("")
-  const [foto, setFoto] = useState("")
-
-  const [produtos, setProdutos] = useState([])
-
-  // VENDAS
-  const totalEstoque = produtos.reduce((acc, item) => {
-    return acc + Number(item.valorVenda)
-  }, 0)
-
-  // CADASTRAR CLIENTE
-  function cadastrarCliente() {
-
-    if (!nomeCliente || !cpf) {
-      alert("Preencha Nome e CPF")
-      return
-    }
-
-    const novoCliente = {
-      nomeCliente,
-      cpf,
-      rg,
-      telefone,
-      endereco
-    }
-
-    setClientes([...clientes, novoCliente])
-
-    setNomeCliente("")
-    setCpf("")
-    setRg("")
-    setTelefone("")
-    setEndereco("")
-  }
-
-  // CADASTRAR PRODUTO
-  function cadastrarProduto() {
-
-    if (!produto || !valorVenda) {
-      alert("Preencha Produto e Valor")
-      return
-    }
-
-    const novoProduto = {
-      produto,
-      codigoBarras,
-      categoria,
-      estoque,
-      valorCompra,
-      valorVenda,
-      foto
-    }
-
-    setProdutos([...produtos, novoProduto])
-
-    setProduto("")
-    setCodigoBarras("")
-    setCategoria("")
-    setEstoque("")
-    setValorCompra("")
-    setValorVenda("")
-    setFoto("")
-  }
-
-  // REMOVER CLIENTE
-  function removerCliente(index) {
-
-    const novaLista = clientes.filter((item, i) => i !== index)
-
-    setClientes(novaLista)
-  }
-
-  // REMOVER PRODUTO
-  function removerProduto(index) {
-
-    const novaLista = produtos.filter((item, i) => i !== index)
-
-    setProdutos(novaLista)
-  }
+  const [pagina, setPagina] = useState("dashboard");
 
   return (
+    <div
+      style={{
+        display: "flex",
+        minHeight: "100vh",
+        fontFamily: "Arial, sans-serif",
 
-    <div style={{
-      minHeight: "100vh",
-      backgroundImage:
-        "url('https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=2070')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      fontFamily: "Arial",
-      color: "white"
-    }}>
+        backgroundImage:
+          "linear-gradient(rgba(255,255,255,0.70), rgba(255,255,255,0.70)), url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1974&auto=format&fit=crop')",
 
-      {/* CAMADA ESCURA */}
-
-      <div style={{
-        backgroundColor: "rgba(0,0,0,0.85)",
-        minHeight: "100vh"
-      }}>
-
-        {/* MENU */}
-
-        <div style={{
-          backgroundColor: "#111",
-          padding: "20px",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* MENU */}
+      <div
+        style={{
+          width: "260px",
+          background: "linear-gradient(180deg,#012e1d,#00140d)",
+          padding: "25px",
+          color: "white",
           display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          flexWrap: "wrap"
-        }}>
-
-          <button onClick={() => setPagina("home")}>
-            Home
-          </button>
-
-          <button onClick={() => setPagina("clientes")}>
-            Clientes
-          </button>
-
-          <button onClick={() => setPagina("produtos")}>
-            Produtos
-          </button>
-
-        </div>
-
-        {/* TÍTULO */}
-
-        <h1 style={{
-          textAlign: "center",
-          fontSize: "55px",
-          paddingTop: "20px"
-        }}>
-          Sistema F.S.O
-        </h1>
-
-        {/* HOME */}
-
-        {pagina === "home" && (
-
-          <div style={{
-            padding: "40px"
-          }}>
-
-            <h2>Painel Administrativo</h2>
-
-            <div style={{
-              display: "flex",
-              gap: "20px",
-              flexWrap: "wrap",
-              marginTop: "30px"
-            }}>
-
-              <div style={{
-                backgroundColor: "#2c2c2c",
-                padding: "30px",
-                borderRadius: "10px",
-                width: "250px"
-              }}>
-
-                <h2>Clientes</h2>
-
-                <h1>{clientes.length}</h1>
-
-              </div>
-
-              <div style={{
-                backgroundColor: "#2c2c2c",
-                padding: "30px",
-                borderRadius: "10px",
-                width: "250px"
-              }}>
-
-                <h2>Produtos</h2>
-
-                <h1>{produtos.length}</h1>
-
-              </div>
-
-              <div style={{
-                backgroundColor: "#2c2c2c",
-                padding: "30px",
-                borderRadius: "10px",
-                width: "250px"
-              }}>
-
-                <h2>Total Estoque</h2>
-
-                <h1>
-                  R$ {totalEstoque.toFixed(2)}
-                </h1>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        )}
-
-        {/* CLIENTES */}
-
-        {pagina === "clientes" && (
-
-          <div style={{
-            padding: "40px"
-          }}>
-
-            <h2>Cadastro de Clientes</h2>
-
-            <div style={{
-              display: "flex",
-              gap: "10px",
-              flexWrap: "wrap"
-            }}>
-
-              <input
-                type="text"
-                placeholder="Nome"
-                value={nomeCliente}
-                onChange={(e) => setNomeCliente(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="CPF"
-                value={cpf}
-                onChange={(e) => setCpf(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="RG"
-                value={rg}
-                onChange={(e) => setRg(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="Telefone"
-                value={telefone}
-                onChange={(e) => setTelefone(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="Endereço"
-                value={endereco}
-                onChange={(e) => setEndereco(e.target.value)}
-                style={{
-                  padding: "10px",
-                  width: "300px"
-                }}
-              />
-
-            </div>
-
-            <br />
-
-            <button
-              onClick={cadastrarCliente}
+          flexDirection: "column",
+          justifyContent: "space-between",
+          boxShadow: "5px 0 20px rgba(0,0,0,0.2)",
+        }}
+      >
+        <div>
+          {/* LOGO */}
+          <div style={{ marginBottom: "40px" }}>
+            <h1
               style={{
-                backgroundColor: "green",
-                color: "white",
-                border: "none",
-                padding: "12px 20px",
-                borderRadius: "5px"
+                fontSize: "50px",
+                margin: "0",
+                fontWeight: "bold",
               }}
             >
-              Cadastrar Cliente
-            </button>
+              PDV
+            </h1>
 
-            <hr />
+            <h2
+              style={{
+                color: "#00ff4c",
+                marginTop: "0",
+                fontSize: "38px",
+              }}
+            >
+              FARMÁCIA
+            </h2>
+          </div>
 
-            {clientes.map((item, index) => (
-
-              <div
-                key={index}
+          {/* BOTÕES */}
+          {["dashboard", "produtos", "clientes", "vendas", "estoque"].map(
+            (item) => (
+              <button
+                key={item}
+                onClick={() => setPagina(item)}
                 style={{
-                  backgroundColor: "#2c2c2c",
-                  padding: "20px",
-                  marginBottom: "15px",
-                  borderRadius: "10px"
+                  width: "100%",
+                  padding: "18px",
+                  marginBottom: "18px",
+                  borderRadius: "15px",
+                  border: "none",
+
+                  background:
+                    pagina === item
+                      ? "#10e64a"
+                      : "rgba(255,255,255,0.06)",
+
+                  color: "white",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+
+                  boxShadow:
+                    pagina === item
+                      ? "0 0 20px rgba(16,230,74,0.5)"
+                      : "none",
+
+                  transition: "0.3s",
                 }}
               >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </button>
+            )
+          )}
+        </div>
 
-                <p><strong>Nome:</strong> {item.nomeCliente}</p>
-                <p><strong>CPF:</strong> {item.cpf}</p>
-                <p><strong>RG:</strong> {item.rg}</p>
-                <p><strong>Telefone:</strong> {item.telefone}</p>
-                <p><strong>Endereço:</strong> {item.endereco}</p>
+        {/* USUÁRIO */}
+        <div
+          style={{
+            background: "rgba(255,255,255,0.06)",
+            padding: "18px",
+            borderRadius: "14px",
+          }}
+        >
+          <h3 style={{ margin: "0" }}>Usuário</h3>
 
-                <button
-                  onClick={() => removerCliente(index)}
-                  style={{
-                    backgroundColor: "red",
-                    color: "white",
-                    border: "none",
-                    padding: "8px 15px",
-                    borderRadius: "5px"
-                  }}
-                >
-                  Remover
-                </button>
-
-              </div>
-
-            ))}
-
-          </div>
-
-        )}
-
-        {/* PRODUTOS */}
-
-        {pagina === "produtos" && (
-
-          <div style={{
-            padding: "40px"
-          }}>
-
-            <h2>Cadastro de Produtos</h2>
-
-            <div style={{
-              display: "flex",
-              gap: "10px",
-              flexWrap: "wrap"
-            }}>
-
-              <input
-                type="text"
-                placeholder="Nome Produto"
-                value={produto}
-                onChange={(e) => setProduto(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="Código de Barras"
-                value={codigoBarras}
-                onChange={(e) => setCodigoBarras(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="Categoria"
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="number"
-                placeholder="Estoque"
-                value={estoque}
-                onChange={(e) => setEstoque(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="number"
-                placeholder="Valor Unitário"
-                value={valorCompra}
-                onChange={(e) => setValorCompra(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="number"
-                placeholder="Valor Venda"
-                value={valorVenda}
-                onChange={(e) => setValorVenda(e.target.value)}
-                style={{
-                  padding: "10px"
-                }}
-              />
-
-              <input
-                type="text"
-                placeholder="URL da Foto"
-                value={foto}
-                onChange={(e) => setFoto(e.target.value)}
-                style={{
-                  padding: "10px",
-                  width: "250px"
-                }}
-              />
-
-            </div>
-
-            <br />
-
-            <button
-              onClick={cadastrarProduto}
-              style={{
-                backgroundColor: "#0066ff",
-                color: "white",
-                border: "none",
-                padding: "12px 20px",
-                borderRadius: "5px"
-              }}
-            >
-              Cadastrar Produto
-            </button>
-
-            <hr />
-
-            <div style={{
-              display: "flex",
-              gap: "20px",
-              flexWrap: "wrap"
-            }}>
-
-              {produtos.map((item, index) => (
-
-                <div
-                  key={index}
-                  style={{
-                    backgroundColor: "#2c2c2c",
-                    padding: "20px",
-                    borderRadius: "10px",
-                    width: "300px"
-                  }}
-                >
-
-                  <img
-                    src={item.foto}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "200px",
-                      objectFit: "cover",
-                      borderRadius: "10px"
-                    }}
-                  />
-
-                  <h2>{item.produto}</h2>
-
-                  <p>
-                    <strong>Código:</strong> {item.codigoBarras}
-                  </p>
-
-                  <p>
-                    <strong>Categoria:</strong> {item.categoria}
-                  </p>
-
-                  <p>
-                    <strong>Estoque:</strong> {item.estoque}
-                  </p>
-
-                  <p>
-                    <strong>Valor Unitário:</strong>
-                    R$ {Number(item.valorCompra).toFixed(2)}
-                  </p>
-
-                  <p>
-                    <strong>Valor Venda:</strong>
-                    R$ {Number(item.valorVenda).toFixed(2)}
-                  </p>
-
-                  <button
-                    onClick={() => removerProduto(index)}
-                    style={{
-                      backgroundColor: "red",
-                      color: "white",
-                      border: "none",
-                      padding: "10px 15px",
-                      borderRadius: "5px"
-                    }}
-                  >
-                    Remover
-                  </button>
-
-                </div>
-
-              ))}
-
-            </div>
-
-          </div>
-
-        )}
-
+          <p style={{ marginTop: "5px" }}>Administrador</p>
+        </div>
       </div>
 
-    </div>
+      {/* CONTEÚDO */}
+      <div
+        style={{
+          flex: 1,
+          padding: "60px",
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <h3
+          style={{
+            color: "#09993b",
+            fontSize: "35px",
+            marginBottom: "0",
+          }}
+        >
+          Bem-vindo!
+        </h3>
 
-  )
+        <h1
+          style={{
+            fontSize: "75px",
+            marginTop: "10px",
+            color: "#012d1a",
+          }}
+        >
+          Dashboard
+        </h1>
+
+        <p
+          style={{
+            color: "#666",
+            fontSize: "22px",
+            marginBottom: "40px",
+          }}
+        >
+          Resumo geral da sua farmácia
+        </p>
+
+        {/* CARDS */}
+        <div
+          style={{
+            display: "flex",
+            gap: "25px",
+            marginBottom: "40px",
+          }}
+        >
+          {/* PRODUTOS */}
+          <div
+            style={{
+              background: "rgba(255,255,255,0.95)",
+              width: "270px",
+              padding: "35px",
+              borderRadius: "25px",
+              boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
+            }}
+          >
+            <h2 style={{ color: "#10b248" }}>Produtos</h2>
+
+            <h1 style={{ fontSize: "55px" }}>2</h1>
+
+            <p style={{ color: "#666" }}>Total cadastrados</p>
+          </div>
+
+          {/* CLIENTES */}
+          <div
+            style={{
+              background: "rgba(255,255,255,0.95)",
+              width: "270px",
+              padding: "35px",
+              borderRadius: "25px",
+              boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
+            }}
+          >
+            <h2 style={{ color: "#2b6cff" }}>Clientes</h2>
+
+            <h1 style={{ fontSize: "55px" }}>2</h1>
+
+            <p style={{ color: "#666" }}>Total cadastrados</p>
+          </div>
+
+          {/* VENDAS */}
+          <div
+            style={{
+              background: "rgba(255,255,255,0.95)",
+              width: "320px",
+              padding: "35px",
+              borderRadius: "25px",
+              boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
+            }}
+          >
+            <h2 style={{ color: "#ff9800" }}>Vendas Hoje</h2>
+
+            <h1
+              style={{
+                fontSize: "50px",
+                color: "#222",
+              }}
+            >
+              R$ 2.450,00
+            </h1>
+
+            <p style={{ color: "#666" }}>Total de vendas</p>
+          </div>
+        </div>
+
+        {/* TABELA */}
+        <div
+          style={{
+            background: "rgba(255,255,255,0.92)",
+            borderRadius: "25px",
+            padding: "35px",
+            boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
+          }}
+        >
+          <h1
+            style={{
+              color: "#0ca043",
+              marginBottom: "0",
+            }}
+          >
+            Produtos
+          </h1>
+
+          <p
+            style={{
+              color: "#666",
+              marginBottom: "30px",
+            }}
+          >
+            Gerencie os produtos da sua farmácia
+          </p>
+
+          {/* INPUTS */}
+          <div
+            style={{
+              display: "flex",
+              gap: "15px",
+              marginBottom: "30px",
+            }}
+          >
+            <input
+              placeholder="Nome do produto"
+              style={{
+                flex: 1,
+                padding: "18px",
+                borderRadius: "12px",
+                border: "1px solid #ddd",
+                fontSize: "16px",
+              }}
+            />
+
+            <input
+              placeholder="Preço (R$)"
+              style={{
+                flex: 1,
+                padding: "18px",
+                borderRadius: "12px",
+                border: "1px solid #ddd",
+                fontSize: "16px",
+              }}
+            />
+
+            <input
+              placeholder="Estoque"
+              style={{
+                flex: 1,
+                padding: "18px",
+                borderRadius: "12px",
+                border: "1px solid #ddd",
+                fontSize: "16px",
+              }}
+            />
+
+            <button
+              style={{
+                background: "#10b248",
+                color: "white",
+                border: "none",
+                padding: "18px 30px",
+                borderRadius: "12px",
+                fontWeight: "bold",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              + Adicionar Produto
+            </button>
+          </div>
+
+          {/* TABELA */}
+          <table
+            width="100%"
+            style={{
+              borderCollapse: "collapse",
+              overflow: "hidden",
+              borderRadius: "20px",
+              background: "white",
+            }}
+          >
+            <thead
+              style={{
+                background: "#eef6f0",
+                textAlign: "left",
+              }}
+            >
+              <tr>
+                <th style={{ padding: "20px" }}>Nome</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr
+                style={{
+                  borderBottom: "1px solid #eee",
+                }}
+              >
+                <td style={{ padding: "25px" }}>Dipirona</td>
+
+                <td>R$ 15,99</td>
+
+                <td>20</td>
+
+                <td>
+                  <button
+                    style={{
+                      background: "#10b248",
+                      color: "white",
+                      border: "none",
+                      padding: "10px 20px",
+                      borderRadius: "10px",
+                      marginRight: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    style={{
+                      background: "#ff3d3d",
+                      color: "white",
+                      border: "none",
+                      padding: "10px 20px",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td style={{ padding: "25px" }}>Paracetamol</td>
+
+                <td>R$ 12,50</td>
+
+                <td>35</td>
+
+                <td>
+                  <button
+                    style={{
+                      background: "#10b248",
+                      color: "white",
+                      border: "none",
+                      padding: "10px 20px",
+                      borderRadius: "10px",
+                      marginRight: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    style={{
+                      background: "#ff3d3d",
+                      color: "white",
+                      border: "none",
+                      padding: "10px 20px",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
