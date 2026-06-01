@@ -1,4 +1,13 @@
+
+import Produtos from "./pages/Produtos";
 import { useState } from "react";
+import {
+  Home,
+  Package,
+  Users,
+  ShoppingCart,
+  Boxes
+} from "lucide-react";
 
 function App() {
   const [pagina, setPagina] = useState("dashboard");
@@ -8,401 +17,280 @@ function App() {
       style={{
         display: "flex",
         minHeight: "100vh",
-        fontFamily: "Arial, sans-serif",
-
-        backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.70), rgba(255,255,255,0.70)), url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1974&auto=format&fit=crop')",
-
+        fontFamily: "Arial",
+        background:
+          "linear-gradient(rgba(255,255,255,0.92), rgba(255,255,255,0.92)), url('https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=1974&auto=format&fit=crop')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
       }}
     >
       {/* MENU */}
-      <div
+      <aside
         style={{
           width: "260px",
-          background: "linear-gradient(180deg,#012e1d,#00140d)",
-          padding: "25px",
+          background: "#015c3a",
           color: "white",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          boxShadow: "5px 0 20px rgba(0,0,0,0.2)",
+          padding: "25px 15px",
         }}
       >
         <div>
-          {/* LOGO */}
-          <div style={{ marginBottom: "40px" }}>
+          <div
+            style={{
+              marginBottom: "40px",
+            }}
+          >
             <h1
               style={{
-                fontSize: "50px",
-                margin: "0",
-                fontWeight: "bold",
+                fontSize: "40px",
+                margin: 0,
+                lineHeight: "45px",
               }}
             >
-              PDV
+              SOARES
             </h1>
 
             <h2
               style={{
-                color: "#00ff4c",
-                marginTop: "0",
-                fontSize: "38px",
+                color: "#7dffb3",
+                marginTop: "5px",
               }}
             >
-              FARMÁCIA
+              PDV FARMÁCIA
             </h2>
           </div>
 
-          {/* BOTÕES */}
-          {["dashboard", "produtos", "clientes", "vendas", "estoque"].map(
-            (item) => (
-              <button
-                key={item}
-                onClick={() => setPagina(item)}
-                style={{
-                  width: "100%",
-                  padding: "18px",
-                  marginBottom: "18px",
-                  borderRadius: "15px",
-                  border: "none",
-
-                  background:
-                    pagina === item
-                      ? "#10e64a"
-                      : "rgba(255,255,255,0.06)",
-
-                  color: "white",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-
-                  boxShadow:
-                    pagina === item
-                      ? "0 0 20px rgba(16,230,74,0.5)"
-                      : "none",
-
-                  transition: "0.3s",
-                }}
-              >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </button>
-            )
-          )}
+          <MenuItem icon={<Home size={20} />} text="Dashboard" active />
+          <MenuItem icon={<Package size={20} />} text="Produtos" />
+          <MenuItem icon={<Users size={20} />} text="Clientes" />
+          <MenuItem icon={<ShoppingCart size={20} />} text="Vendas" />
+          <MenuItem icon={<Boxes size={20} />} text="Estoque" />
         </div>
 
-        {/* USUÁRIO */}
         <div
           style={{
-            background: "rgba(255,255,255,0.06)",
-            padding: "18px",
-            borderRadius: "14px",
+            background: "rgba(255,255,255,0.08)",
+            padding: "20px",
+            borderRadius: "15px",
           }}
         >
-          <h3 style={{ margin: "0" }}>Usuário</h3>
+          <h3 style={{ margin: 0 }}>Usuário</h3>
+          <p style={{ color: "#b8ffd8" }}>Administrador</p>
 
-          <p style={{ marginTop: "5px" }}>Administrador</p>
+          <button
+            style={{
+              width: "100%",
+              padding: "12px",
+              border: "none",
+              borderRadius: "10px",
+              background: "#00a86b",
+              color: "white",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            Sair
+          </button>
         </div>
-      </div>
+      </aside>
 
       {/* CONTEÚDO */}
-      <div
+      <main
         style={{
           flex: 1,
-          padding: "60px",
-          backdropFilter: "blur(10px)",
+          padding: "40px",
         }}
       >
-        <h3
+        {/* TOPO */}
+        <div
           style={{
-            color: "#09993b",
-            fontSize: "35px",
-            marginBottom: "0",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "30px",
           }}
         >
-          Bem-vindo!
-        </h3>
+          <div>
+            <h3
+              style={{
+                color: "#0c8a55",
+                marginBottom: "5px",
+              }}
+            >
+              Bem-vindo!
+            </h3>
 
-        <h1
-          style={{
-            fontSize: "75px",
-            marginTop: "10px",
-            color: "#012d1a",
-          }}
-        >
-          Dashboard
-        </h1>
+            {/* AQUI TROQUEI */}
+            <h1
+              style={{
+                fontSize: "55px",
+                margin: 0,
+                color: "#063d27",
+              }}
+            >
+              Soares PDV
+            </h1>
 
-        <p
-          style={{
-            color: "#666",
-            fontSize: "22px",
-            marginBottom: "40px",
-          }}
-        >
-          Resumo geral da sua farmácia
-        </p>
+            <p
+              style={{
+                color: "#666",
+              }}
+            >
+              Resumo geral da sua farmácia
+            </p>
+          </div>
+
+          <div
+            style={{
+              background: "white",
+              padding: "15px 25px",
+              borderRadius: "15px",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+              fontWeight: "bold",
+            }}
+          >
+            27/05/2025
+            <br />
+            16:50
+          </div>
+        </div>
 
         {/* CARDS */}
         <div
           style={{
-            display: "flex",
-            gap: "25px",
-            marginBottom: "40px",
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "20px",
+            marginBottom: "35px",
           }}
         >
-          {/* PRODUTOS */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.95)",
-              width: "270px",
-              padding: "35px",
-              borderRadius: "25px",
-              boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
-            }}
-          >
-            <h2 style={{ color: "#10b248" }}>Produtos</h2>
+          <Card titulo="Produtos" numero="2" cor="#09a55c" />
 
-            <h1 style={{ fontSize: "55px" }}>2</h1>
+          <Card titulo="Clientes" numero="2" cor="#2d7cff" />
 
-            <p style={{ color: "#666" }}>Total cadastrados</p>
-          </div>
-
-          {/* CLIENTES */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.95)",
-              width: "270px",
-              padding: "35px",
-              borderRadius: "25px",
-              boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
-            }}
-          >
-            <h2 style={{ color: "#2b6cff" }}>Clientes</h2>
-
-            <h1 style={{ fontSize: "55px" }}>2</h1>
-
-            <p style={{ color: "#666" }}>Total cadastrados</p>
-          </div>
-
-          {/* VENDAS */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.95)",
-              width: "320px",
-              padding: "35px",
-              borderRadius: "25px",
-              boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
-            }}
-          >
-            <h2 style={{ color: "#ff9800" }}>Vendas Hoje</h2>
-
-            <h1
-              style={{
-                fontSize: "50px",
-                color: "#222",
-              }}
-            >
-              R$ 2.450,00
-            </h1>
-
-            <p style={{ color: "#666" }}>Total de vendas</p>
-          </div>
+          <Card
+            titulo="Vendas Hoje"
+            numero="R$ 2.450,00"
+            cor="#ffb300"
+          />
         </div>
 
-        {/* TABELA */}
-        <div
-          style={{
-            background: "rgba(255,255,255,0.92)",
-            borderRadius: "25px",
-            padding: "35px",
-            boxShadow: "0 5px 25px rgba(0,0,0,0.08)",
-          }}
-        >
-          <h1
-            style={{
-              color: "#0ca043",
-              marginBottom: "0",
-            }}
-          >
-            Produtos
-          </h1>
+        {/* PRODUTOS */}
+       <Produtos />
+            
+      </main>
+    </div>
+  );
+}
 
-          <p
-            style={{
-              color: "#666",
-              marginBottom: "30px",
-            }}
-          >
-            Gerencie os produtos da sua farmácia
-          </p>
+function MenuItem({ icon, text, active }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "15px",
+        padding: "18px",
+        marginBottom: "15px",
+        borderRadius: "15px",
+        background: active ? "#09a55c" : "rgba(255,255,255,0.05)",
+        cursor: "pointer",
+        fontWeight: "bold",
+      }}
+    >
+      {icon}
+      {text}
+    </div>
+  );
+}
 
-          {/* INPUTS */}
-          <div
-            style={{
-              display: "flex",
-              gap: "15px",
-              marginBottom: "30px",
-            }}
-          >
-            <input
-              placeholder="Nome do produto"
-              style={{
-                flex: 1,
-                padding: "18px",
-                borderRadius: "12px",
-                border: "1px solid #ddd",
-                fontSize: "16px",
-              }}
-            />
+function Card({ titulo, numero, cor }) {
+  return (
+    <div
+      style={{
+        background: "white",
+        borderRadius: "20px",
+        padding: "25px",
+        display: "flex",
+        alignItems: "center",
+        gap: "20px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+      }}
+    >
+      <div
+        style={{
+          width: "70px",
+          height: "70px",
+          borderRadius: "50%",
+          background: cor,
+        }}
+      ></div>
 
-            <input
-              placeholder="Preço (R$)"
-              style={{
-                flex: 1,
-                padding: "18px",
-                borderRadius: "12px",
-                border: "1px solid #ddd",
-                fontSize: "16px",
-              }}
-            />
-
-            <input
-              placeholder="Estoque"
-              style={{
-                flex: 1,
-                padding: "18px",
-                borderRadius: "12px",
-                border: "1px solid #ddd",
-                fontSize: "16px",
-              }}
-            />
-
-            <button
-              style={{
-                background: "#10b248",
-                color: "white",
-                border: "none",
-                padding: "18px 30px",
-                borderRadius: "12px",
-                fontWeight: "bold",
-                fontSize: "16px",
-                cursor: "pointer",
-              }}
-            >
-              + Adicionar Produto
-            </button>
-          </div>
-
-          {/* TABELA */}
-          <table
-            width="100%"
-            style={{
-              borderCollapse: "collapse",
-              overflow: "hidden",
-              borderRadius: "20px",
-              background: "white",
-            }}
-          >
-            <thead
-              style={{
-                background: "#eef6f0",
-                textAlign: "left",
-              }}
-            >
-              <tr>
-                <th style={{ padding: "20px" }}>Nome</th>
-                <th>Preço</th>
-                <th>Estoque</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr
-                style={{
-                  borderBottom: "1px solid #eee",
-                }}
-              >
-                <td style={{ padding: "25px" }}>Dipirona</td>
-
-                <td>R$ 15,99</td>
-
-                <td>20</td>
-
-                <td>
-                  <button
-                    style={{
-                      background: "#10b248",
-                      color: "white",
-                      border: "none",
-                      padding: "10px 20px",
-                      borderRadius: "10px",
-                      marginRight: "10px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Editar
-                  </button>
-
-                  <button
-                    style={{
-                      background: "#ff3d3d",
-                      color: "white",
-                      border: "none",
-                      padding: "10px 20px",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Excluir
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td style={{ padding: "25px" }}>Paracetamol</td>
-
-                <td>R$ 12,50</td>
-
-                <td>35</td>
-
-                <td>
-                  <button
-                    style={{
-                      background: "#10b248",
-                      color: "white",
-                      border: "none",
-                      padding: "10px 20px",
-                      borderRadius: "10px",
-                      marginRight: "10px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Editar
-                  </button>
-
-                  <button
-                    style={{
-                      background: "#ff3d3d",
-                      color: "white",
-                      border: "none",
-                      padding: "10px 20px",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Excluir
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div>
+        <h2>{titulo}</h2>
+        <h1>{numero}</h1>
       </div>
     </div>
   );
 }
+
+const input = {
+  flex: 1,
+  padding: "16px",
+  borderRadius: "12px",
+  border: "1px solid #ddd",
+  fontSize: "16px",
+};
+
+const botaoAdicionar = {
+  background: "#09a55c",
+  color: "white",
+  border: "none",
+  borderRadius: "12px",
+  padding: "15px 20px",
+  fontWeight: "bold",
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  cursor: "pointer",
+};
+
+const th = {
+  textAlign: "left",
+  padding: "20px",
+  color: "#055c39",
+};
+
+const td = {
+  padding: "20px",
+  borderBottom: "1px solid #eee",
+};
+
+const editar = {
+  background: "#09a55c",
+  color: "white",
+  border: "none",
+  padding: "10px 15px",
+  borderRadius: "10px",
+  marginRight: "10px",
+  cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "8px",
+};
+
+const excluir = {
+  background: "#ff2f2f",
+  color: "white",
+  border: "none",
+  padding: "10px 15px",
+  borderRadius: "10px",
+  cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "8px",
+};
 
 export default App;
