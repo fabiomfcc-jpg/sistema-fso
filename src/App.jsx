@@ -1,12 +1,16 @@
-
 import Produtos from "./pages/Produtos";
+import Vendas from "./pages/Vendas";
+import Clientes from "./pages/Clientes";
+import Estoque from "./pages/Estoque";
+import Dashboard from "./pages/Dashboard";
+
 import { useState } from "react";
 import {
   Home,
   Package,
   Users,
   ShoppingCart,
-  Boxes
+  Boxes,
 } from "lucide-react";
 
 function App() {
@@ -24,11 +28,10 @@ function App() {
         backgroundPosition: "center",
       }}
     >
-      {/* MENU */}
       <aside
         style={{
           width: "260px",
-          background: "#015c3a",
+          background: "#1e3a8a",
           color: "white",
           display: "flex",
           flexDirection: "column",
@@ -37,11 +40,7 @@ function App() {
         }}
       >
         <div>
-          <div
-            style={{
-              marginBottom: "40px",
-            }}
-          >
+          <div style={{ marginBottom: "40px" }}>
             <h1
               style={{
                 fontSize: "40px",
@@ -54,7 +53,7 @@ function App() {
 
             <h2
               style={{
-                color: "#7dffb3",
+                color: "#93c5fd",
                 marginTop: "5px",
               }}
             >
@@ -62,22 +61,59 @@ function App() {
             </h2>
           </div>
 
-          <MenuItem icon={<Home size={20} />} text="Dashboard" active />
-          <MenuItem icon={<Package size={20} />} text="Produtos" />
-          <MenuItem icon={<Users size={20} />} text="Clientes" />
-          <MenuItem icon={<ShoppingCart size={20} />} text="Vendas" />
-          <MenuItem icon={<Boxes size={20} />} text="Estoque" />
+          <MenuItem
+            icon={<Home size={20} />}
+            text="Painel"
+            active={pagina === "dashboard"}
+            onClick={() => setPagina("dashboard")}
+          />
+
+          <MenuItem
+            icon={<Package size={20} />}
+            text="Produtos"
+            active={pagina === "produtos"}
+            onClick={() => setPagina("produtos")}
+          />
+
+          <MenuItem
+            icon={<Users size={20} />}
+            text="Clientes"
+            active={pagina === "clientes"}
+            onClick={() => setPagina("clientes")}
+          />
+
+          <MenuItem
+            icon={<ShoppingCart size={20} />}
+            text="Vendas"
+            active={pagina === "vendas"}
+            onClick={() => setPagina("vendas")}
+          />
+
+          <MenuItem
+            icon={<Boxes size={20} />}
+            text="Estoque"
+            active={pagina === "estoque"}
+            onClick={() => setPagina("estoque")}
+          />
         </div>
 
         <div
           style={{
-            background: "rgba(255,255,255,0.08)",
+            background: "rgba(255,255,255,0.10)",
             padding: "20px",
             borderRadius: "15px",
           }}
         >
           <h3 style={{ margin: 0 }}>Usuário</h3>
-          <p style={{ color: "#b8ffd8" }}>Administrador</p>
+
+          <p
+            style={{
+              color: "#dbeafe",
+              marginTop: "5px",
+            }}
+          >
+            Administrador
+          </p>
 
           <button
             style={{
@@ -85,7 +121,7 @@ function App() {
               padding: "12px",
               border: "none",
               borderRadius: "10px",
-              background: "#00a86b",
+              background: "#2563eb",
               color: "white",
               fontWeight: "bold",
               cursor: "pointer",
@@ -96,98 +132,35 @@ function App() {
         </div>
       </aside>
 
-      {/* CONTEÚDO */}
       <main
         style={{
           flex: 1,
           padding: "40px",
         }}
       >
-        {/* TOPO */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "30px",
-          }}
-        >
-          <div>
-            <h3
-              style={{
-                color: "#0c8a55",
-                marginBottom: "5px",
-              }}
-            >
-              Bem-vindo!
-            </h3>
+        {pagina === "dashboard" && <Dashboard />}
 
-            {/* AQUI TROQUEI */}
-            <h1
-              style={{
-                fontSize: "55px",
-                margin: 0,
-                color: "#063d27",
-              }}
-            >
-              Soares PDV
-            </h1>
+        {pagina === "produtos" && <Produtos />}
 
-            <p
-              style={{
-                color: "#666",
-              }}
-            >
-              Resumo geral da sua farmácia
-            </p>
-          </div>
+        {pagina === "clientes" && <Clientes />}
 
-          <div
-            style={{
-              background: "white",
-              padding: "15px 25px",
-              borderRadius: "15px",
-              boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-              fontWeight: "bold",
-            }}
-          >
-            27/05/2025
-            <br />
-            16:50
-          </div>
-        </div>
+        {pagina === "vendas" && <Vendas />}
 
-        {/* CARDS */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "20px",
-            marginBottom: "35px",
-          }}
-        >
-          <Card titulo="Produtos" numero="2" cor="#09a55c" />
-
-          <Card titulo="Clientes" numero="2" cor="#2d7cff" />
-
-          <Card
-            titulo="Vendas Hoje"
-            numero="R$ 2.450,00"
-            cor="#ffb300"
-          />
-        </div>
-
-        {/* PRODUTOS */}
-       <Produtos />
-            
+        {pagina === "estoque" && <Estoque />}
       </main>
     </div>
   );
 }
 
-function MenuItem({ icon, text, active }) {
+function MenuItem({
+  icon,
+  text,
+  active,
+  onClick,
+}) {
   return (
     <div
+      onClick={onClick}
       style={{
         display: "flex",
         alignItems: "center",
@@ -195,7 +168,9 @@ function MenuItem({ icon, text, active }) {
         padding: "18px",
         marginBottom: "15px",
         borderRadius: "15px",
-        background: active ? "#09a55c" : "rgba(255,255,255,0.05)",
+        background: active
+          ? "#2563eb"
+          : "rgba(255,255,255,0.08)",
         cursor: "pointer",
         fontWeight: "bold",
       }}
@@ -205,92 +180,5 @@ function MenuItem({ icon, text, active }) {
     </div>
   );
 }
-
-function Card({ titulo, numero, cor }) {
-  return (
-    <div
-      style={{
-        background: "white",
-        borderRadius: "20px",
-        padding: "25px",
-        display: "flex",
-        alignItems: "center",
-        gap: "20px",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-      }}
-    >
-      <div
-        style={{
-          width: "70px",
-          height: "70px",
-          borderRadius: "50%",
-          background: cor,
-        }}
-      ></div>
-
-      <div>
-        <h2>{titulo}</h2>
-        <h1>{numero}</h1>
-      </div>
-    </div>
-  );
-}
-
-const input = {
-  flex: 1,
-  padding: "16px",
-  borderRadius: "12px",
-  border: "1px solid #ddd",
-  fontSize: "16px",
-};
-
-const botaoAdicionar = {
-  background: "#09a55c",
-  color: "white",
-  border: "none",
-  borderRadius: "12px",
-  padding: "15px 20px",
-  fontWeight: "bold",
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  cursor: "pointer",
-};
-
-const th = {
-  textAlign: "left",
-  padding: "20px",
-  color: "#055c39",
-};
-
-const td = {
-  padding: "20px",
-  borderBottom: "1px solid #eee",
-};
-
-const editar = {
-  background: "#09a55c",
-  color: "white",
-  border: "none",
-  padding: "10px 15px",
-  borderRadius: "10px",
-  marginRight: "10px",
-  cursor: "pointer",
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "8px",
-};
-
-const excluir = {
-  background: "#ff2f2f",
-  color: "white",
-  border: "none",
-  padding: "10px 15px",
-  borderRadius: "10px",
-  cursor: "pointer",
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "8px",
-};
 
 export default App;
