@@ -3,6 +3,7 @@ import Vendas from "./pages/Vendas";
 import Clientes from "./pages/Clientes";
 import Estoque from "./pages/Estoque";
 import Dashboard from "./pages/Dashboard";
+import Financeiro from "./pages/Financeiro";
 
 import { useState } from "react";
 import {
@@ -11,6 +12,7 @@ import {
   Users,
   ShoppingCart,
   Boxes,
+  DollarSign,
 } from "lucide-react";
 
 function App() {
@@ -95,7 +97,13 @@ function App() {
             active={pagina === "estoque"}
             onClick={() => setPagina("estoque")}
           />
-        </div>
+          <MenuItem
+           icon={<DollarSign size={20} />}
+           text="Financeiro"
+           active={pagina === "financeiro"}
+           onClick={() => setPagina("financeiro")}
+/>
+      </div>
 
         <div
           style={{
@@ -147,6 +155,8 @@ function App() {
         {pagina === "vendas" && <Vendas />}
 
         {pagina === "estoque" && <Estoque />}
+
+        {pagina === "financeiro" && <Financeiro />}
       </main>
     </div>
   );

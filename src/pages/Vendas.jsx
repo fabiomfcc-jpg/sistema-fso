@@ -7,7 +7,8 @@ export default function Vendas() {
   const [clienteSelecionado, setClienteSelecionado] = useState("");
   const [busca, setBusca] = useState("");
   const [carrinho, setCarrinho] = useState([]);
-
+const [tipoVenda, setTipoVenda] = useState("avista");
+const [vencimento, setVencimento] = useState("");
   useEffect(() => {
     carregarProdutos();
     carregarClientes();
@@ -75,6 +76,13 @@ export default function Vendas() {
     }
 
     const totalVenda = calcularTotal();
+    if (
+  tipoVenda === "prazo" &&
+  !vencimento
+) {
+  alert("Informe a data de vencimento");
+  return;
+}
 
     const { data: venda, error } = await supabase
       .from("vendas")
@@ -121,7 +129,29 @@ export default function Vendas() {
         })
         .eq("id", item.id);
     }
+if (tipoVenda === "prazo") {
+  const clienteObj = clientes.find(
+    (c) => c.nome === clienteSelecionado
+  );
 
+  const { error: erroPrazo } = await supabase
+    .from("vendas_prazo")
+    .insert([
+      {
+        cliente_id: clienteObj?.id || null,
+        vencimento: vencimento,
+        valor_total: totalVenda,
+        status: "Aberto",
+      },
+    ]);
+
+  if (erroPrazo) {
+    console.log("ERRO PRAZO:", erroPrazo);
+    alert(erroPrazo.message);
+  }
+}
+
+ 
     alert("Venda realizada com sucesso!");
 
     setCarrinho([]);
@@ -180,10 +210,49 @@ export default function Vendas() {
             {cliente.nome}
           </option>
         ))}
-      </select>
+     </select>
 
-      <input
-        type="text"
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginBottom: "20px",
+  }}
+>
+  <select
+    value={tipoVenda}
+    onChange={(e) => setTipoVenda(e.target.value)}
+    style={{
+      padding: "12px",
+      borderRadius: "8px",
+    }}
+  >
+    <option value="avista">
+      À Vista
+    </option>
+
+    <option value="prazo">
+      A Prazo
+    </option>
+  </select>
+
+  {tipoVenda === "prazo" && (
+    <input
+      type="date"
+      value={vencimento}
+      onChange={(e) =>
+        setVencimento(e.target.value)
+      }
+      style={{
+        padding: "12px",
+        borderRadius: "8px",
+      }}
+    />
+  )}
+</div>
+
+<input
+  type="text"
         placeholder="Buscar produto..."
         value={busca}
         onChange={(e) =>
@@ -290,21 +359,43 @@ export default function Vendas() {
         {calcularTotal().toFixed(2)}
       </h2>
 
-      <button
-        onClick={finalizarVenda}
-        style={{
-          background: "#0c8a55",
-          color: "#fff",
-          border: "none",
-          padding:
-            "15px 25px",
-          borderRadius: "10px",
-          cursor: "pointer",
-          fontSize: "18px",
-        }}
-      >
-        Finalizar Venda
-      </button>
+      <div
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginTop: "20px",
+  }}
+>
+  <button
+    onClick={finalizarVenda}
+    style={{
+      background: "#0c8a55",
+      color: "#fff",
+      border: "none",
+      padding: "15px 25px",
+      borderRadius: "10px",
+      cursor: "pointer",
+      fontSize: "18px",
+    }}
+  >
+    Finalizar Venda
+  </button>
+
+  <button
+    onClick={() => window.print()}
+    style={{
+      background: "#2563eb",
+      color: "#fff",
+      border: "none",
+      padding: "15px 25px",
+      borderRadius: "10px",
+      cursor: "pointer",
+      fontSize: "18px",
+    }}
+  >
+    Imprimir Venda
+  </button>
+</div>
     </div>
   );
 }
