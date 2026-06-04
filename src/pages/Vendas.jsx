@@ -161,6 +161,74 @@ if (tipoVenda === "prazo") {
     carregarProdutos();
   }
 
+  function imprimirVendaPrazo() {
+  const cliente = clientes.find(
+    (c) => c.nome === clienteSelecionado
+  );
+
+  const produtosHTML = carrinho
+    .map(
+      (item) => `
+      <tr>
+        <td>${item.quantidade}</td>
+        <td>${item.nome}</td>
+        <td>R$ ${Number(item.venda).toFixed(2)}</td>
+        <td>R$ ${(item.quantidade * item.venda).toFixed(2)}</td>
+      </tr>
+    `
+    )
+    .join("");
+
+  const janela = window.open("", "_blank");
+
+  janela.document.write(`
+  <html>
+  <body style="width:80mm;font-family:monospace;padding:10px">
+
+  <center>
+    <b>SOARES PDV FARMÁCIA</b><br>
+    EXTRATO - CONTA PARTICULAR<br>
+    (Sem valor fiscal)
+  </center>
+
+  <hr>
+
+  Cliente:
+  ${cliente?.nome || "Consumidor Final"}
+
+  <br><br>
+
+  Data:
+  ${new Date().toLocaleDateString()}
+
+  <hr>
+
+  <table width="100%">
+    ${produtosHTML}
+  </table>
+
+  <hr>
+
+  <b>
+    Total: R$ ${calcularTotal().toFixed(2)}
+  </b>
+
+  <br><br><br>
+
+  _______________________
+
+  <br>
+
+  Assinatura Cliente
+
+  </body>
+  </html>
+  `);
+
+  janela.document.close();
+  janela.print();
+}
+
   const produtosFiltrados = produtos.filter(
     (produto) =>
       produto.nome
@@ -371,7 +439,7 @@ if (tipoVenda === "prazo") {
   </button>
 
   <button
-    onClick={() => window.print()}
+  onClick={imprimirVendaPrazo}
     style={{
       background: "#2563eb",
       color: "#fff",
