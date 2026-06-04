@@ -105,7 +105,12 @@ export default function Financeiro() {
 
         <br><br>
 
-        Cliente: Consumidor Final
+        Cliente: ${conta.cliente_nome || "Consumidor Final"}
+
+        <br>
+
+        Vencimento:
+      ${conta.vencimento}
 
         <hr>
 

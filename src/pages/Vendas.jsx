@@ -201,11 +201,25 @@ if (tipoVenda === "prazo") {
   Data:
   ${new Date().toLocaleDateString()}
 
+  <br>
+
+Vencimento:
+${new Date(
+  Date.now() + 30 * 24 * 60 * 60 * 1000
+).toLocaleDateString()}
+
   <hr>
 
-  <table width="100%">
-    ${produtosHTML}
-  </table>
+  <table width="100%" border="1" cellspacing="0">
+  <tr>
+    <th>Qtd</th>
+    <th>Produto</th>
+    <th>Valor</th>
+    <th>Total</th>
+  </tr>
+
+  ${produtosHTML}
+</table>
 
   <hr>
 
