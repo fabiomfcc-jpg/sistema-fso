@@ -8,7 +8,7 @@ export default function Vendas() {
   const [busca, setBusca] = useState("");
   const [carrinho, setCarrinho] = useState([]);
 const [tipoVenda, setTipoVenda] = useState("avista");
-const [vencimento, setVencimento] = useState("");
+
   useEffect(() => {
     carregarProdutos();
     carregarClientes();
@@ -70,21 +70,14 @@ const [vencimento, setVencimento] = useState("");
   }
 
   async function finalizarVenda() {
-    if (carrinho.length === 0) {
-      alert("Carrinho vazio");
-      return;
-    }
+  if (carrinho.length === 0) {
+    alert("Carrinho vazio");
+    return;
+  }
 
-    const totalVenda = calcularTotal();
-    if (
-  tipoVenda === "prazo" &&
-  !vencimento
-) {
-  alert("Informe a data de vencimento");
-  return;
-}
+  const totalVenda = calcularTotal();
 
-    const { data: venda, error } = await supabase
+  const { data: venda, error } = await supabase
       .from("vendas")
       .insert([
         {
@@ -134,12 +127,20 @@ if (tipoVenda === "prazo") {
     (c) => c.nome === clienteSelecionado
   );
 
+  const dataVencimento = new Date();
+
+  dataVencimento.setDate(
+    dataVencimento.getDate() + 30
+  );
+
   const { error: erroPrazo } = await supabase
     .from("vendas_prazo")
     .insert([
       {
         cliente_id: clienteObj?.id || null,
-        vencimento: vencimento,
+        vencimento: dataVencimento
+          .toISOString()
+          .split("T")[0],
         valor_total: totalVenda,
         status: "Aberto",
       },
@@ -236,19 +237,7 @@ if (tipoVenda === "prazo") {
     </option>
   </select>
 
-  {tipoVenda === "prazo" && (
-    <input
-      type="date"
-      value={vencimento}
-      onChange={(e) =>
-        setVencimento(e.target.value)
-      }
-      style={{
-        padding: "12px",
-        borderRadius: "8px",
-      }}
-    />
-  )}
+  
 </div>
 
 <input
